@@ -1,140 +1,47 @@
 @extends('layouts.master')
+
 @section('title', 'Order')
 @section('content')
-    <style>
-        .card {
-            border-top-left-radius: 30px;
-            border-bottom-right-radius: 20px;
-        }
+    <link rel="stylesheet" href="{{ asset('assets/css/order.css') }}">
 
-        .card-header {
-            position: fixed;
-            margin-top: -30px;
-            width: 100%;
-            z-index: 1000;
-            background-color: rgb(0, 225, 255);
-        }
-
-        .nav-item.search-box {
-            width: 100%;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-input {
-            border: none;
-            border-bottom: 1px solid #ced4da;
-            outline: none;
-        }
-
-        .nav-tabs .nav-item {
-            margin-right: 10px;
-        }
-
-        .nav-tabs .nav-link.active,
-        .nav-tabs .nav-link.active:hover,
-        .nav-tabs .nav-link.active:focus {
-            color: #00f1e9 !important;
-            background-color: #007bff !important;
-            border-color: #007bff !important;
-        }
-
-        .card-equal-height {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .card-equal-height .card {
-            flex: 1 0 auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-img-top {
-            width: 100% !important;
-            height: 150px !important;
-            object-fit: cover !important;
-        }
-
-        .card-menu {
-            margin-top: 30px;
-            background-color: #04b7db;
-        }
-
-        .card-body {
-            margin-top: 25px;
-            height: 75px;
-            margin-bottom: 2px;
-        }
-
-        .btn-quantity {
-            width: 30px;
-            height: 30px;
-            line-height: 20px;
-        }
-
-        .status-badge {
-            font-size: 12px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #dc3545;
-            padding: 5px 10px;
-            border-radius: 8px;
-        }
-
-        .card-title {
-            margin-top: -40px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .card-text {
-            margin-top: -10px;
-            font-size: 12px;
-        }
-
-        .item-price {
-            margin-top: -20px;
-        }
-
-        .col-4 {
-            margin-top: -5px;
-        }
-
-        .floating-action-btn {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            z-index: 5000;
-        }
-
-        body {
-            margin-bottom: 50%;
-            background-color: #c7ebf3;
-        }
-    </style>
     <div class="card text-center">
         <div class="card-header">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs justify-content-between">
+                <div class="d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link {{ session('active_tab') === 'all' ? 'active' : '' }}" href="#all"
+                            onclick="showTab('all')">All</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ session('active_tab') === 'foods' ? 'active' : '' }}" href="#foods"
+                            onclick="showTab('foods')">Foods</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ session('active_tab') === 'drinks' ? 'active' : '' }}" href="#drinks"
+                            onclick="showTab('drinks')">Drinks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ session('active_tab') === 'snacks' ? 'active' : '' }}" href="#snacks"
+                            onclick="showTab('snacks')">Snacks</a>
+                    </li>
+                </div>
                 <li class="nav-item">
-                    <a class="nav-link {{ session('active_tab') === 'all' ? 'active' : '' }}" href="#all"
-                        onclick="showTab('all')">All</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ session('active_tab') === 'foods' ? 'active' : '' }}" href="#foods"
-                        onclick="showTab('foods')">Foods</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ session('active_tab') === 'drinks' ? 'active' : '' }}" href="#drinks"
-                        onclick="showTab('drinks')">Drinks</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ session('active_tab') === 'snacks' ? 'active' : '' }}" href="#snacks"
-                        onclick="showTab('snacks')">Snacks</a>
+                    <form method="post" action="{{ route('admin.user.checksaldo') }}" id="checkSaldoForm"
+                        class="form-inline">
+                        @csrf
+                        <div class="input-group">
+                            <input type="password" class="form-control" name="rfidInputCheck" autofocus
+                                placeholder="ID RFID" required />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Cek Saldo</button>
+                            </div>
+                        </div>
+                    </form>
                 </li>
             </ul>
         </div>
     </div>
+
     <div class="card-menu text-center">
         <div id="all" class="tab-content">
             <div id="foods" class="row tab-content card-equal-height">
@@ -232,7 +139,10 @@
         </div>
     </div>
     <div id="orderBtn" class="floating-action-btn" style="display: none;">
-        <button class="btn btn-primary" onclick="showOrderModal()">Order</button>
+
+        <button class="btn btn-primary" style="font-size: 25px;" onclick="showOrderModal()"> <i
+                class="fas fa-shopping-cart"></i><br>
+            Order</button>
     </div>
 
     <div id="orderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -241,79 +151,61 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Input untuk ID RFID -->
-                    <div class="form-group">
-                        <label for="rfidInput">Tempelkan Kartu RFID:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="rfidInput" placeholder="ID RFID" />
+                    <form id="orderForm" action="{{ route('order.store') }}" method="POST">
+                        <!-- Input untuk ID RFID -->
+                        <div class="form-group">
+                            {{-- <label for="rfidInput">Tempelkan Kartu RFID:</label> --}}
+                            <small id="rfidHelp" class="form-text text-muted">Pindai kartu RFID Anda dan Masukkan
+                                Password untuk Melanjutkan Pembayaran.</small>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="rfidInput" name="rfidInput" autofocus
+                                    placeholder="Tempelkan RFID anda" required />
+                                <input type="password" class="form-control" id="password" name="password" autofocus
+                                    placeholder="Masukkan Password" required />
+                            </div>
+
                         </div>
-                        <small id="rfidHelp" class="form-text text-muted">Pindai kartu RFID Anda untuk mendapatkan
-                            ID.</small>
-                    </div>
 
-                    <!-- Tempat untuk menampilkan saldo jika RFID terdaftar -->
-                    <div id="saldoContainer" style="display: none;">
-                        <p id="saldoText">Saldo Tersedia: Rp <span id="saldoAmount">0</span></p>
-                    </div>
+                        <!-- Tempat untuk menampilkan saldo jika RFID terdaftar -->
+                        <div id="saldoContainer" style="display: none;">
+                            <p id="saldoText">Saldo Tersedia: Rp <span id="saldoAmount">0</span></p>
+                        </div>
 
-                    <!-- List Order -->
-                    <ul id="orderModalItemList" class="list-unstyled">
-                        <!-- Rincian pesanan akan ditampilkan di sini -->
-                    </ul>
-                    <hr>
-                    <p id="totalItemsText">Total Items: <span id="totalItems">0</span></p>
-                    <p>Saldo saat ini : Rp <span id="currentSaldo">0</span></p>
-                    <p id="totalPriceText">Harga Total: Rp <span id="totalPrice">0</span></p>
-                    <p>Sisa saldo: Rp <span id="remainingSaldo">0</span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary" onclick="next()">Next</button>
+                        <!-- List Order -->
+                        <ul id="orderModalItemList" class="list-unstyled">
+                            <!-- Rincian pesanan akan ditampilkan di sini -->
+                        </ul>
+                        <hr>
+                        <p id="totalItemsText">Total Items: <span id="totalItems">0</span></p>
+                        <p id="totalPriceText">Harga Total: Rp <span id="totalPrice">0</span></p>
+
+
+                        @csrf <!-- Pastikan CSRF token ada untuk Laravel -->
+                        <input type="hidden" id="hiddenTotalItems" name="totalItems" value="">
+                        <input type="hidden" id="hiddenTotalPrice" name="totalPrice" value="">
+                        <input type="hidden" id="hiddenOrderDetails" name="orderDetails" value="">
+                        <br><small>Note : Periksa Kembali Pesanan, Setelah pembayran berhasil .pesanan tidak dapat
+                            dibatalakan.</small><br>
+                        <button type="button" class="btn btn-secondary" style="width: 48%;"
+                            data-bs-dismiss="modal">Tembah
+                            Menu</button>
+                        <button type="submit" class="btn btn-primary" style="width: 48%;">Bayar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div id="orderModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
 
-                    <!-- Tempat untuk menampilkan saldo jika RFID terdaftar -->
-                    <div id="saldoContainer" style="display: block;">
-                        <p id="saldoText">Saldo Tersedia: Rp <span id="saldoAmount">0</span></p>
-                    </div>
 
-                    <!-- List Order -->
-                    <ul id="orderModalItemList" class="list-unstyled">
-                        <!-- Rincian pesanan akan ditampilkan di sini -->
-                    </ul>
-                    <hr>
-                    <p id="totalItemsText">Total Items: <span id="totalItems">0</span></p>
-                    <p>Saldo saat ini : Rp <span id="currentSaldo">0</span></p>
-                    <p id="totalPriceText">Harga Total: Rp <span id="totalPrice">0</span></p>
-                    <p>Sisa saldo: Rp <span id="remainingSaldo">0</span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary" onclick="submitOrder()">Sumbit</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 @endsection
+
 @push('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -322,51 +214,7 @@
             $('#orderBtn button').on('click', function() {
                 showOrderModal();
             });
-            $(document).ready(function() {
-                // Callback yang dipanggil saat RFID berhasil dibaca
-                function onRFIDRead(rfidData) {
-                    // Simpan ID RFID ke dalam input
-                    $('#rfidInput').val(rfidData);
 
-                    // Lakukan permintaan AJAX untuk memeriksa apakah RFID terdaftar dan dapatkan saldo
-                    $.ajax({
-                        url: '/api/check-rfid',
-                        method: 'POST',
-                        data: {
-                            rfidData: rfidData
-                        },
-                        success: function(response) {
-                            if (response.registered) {
-                                // RFID terdaftar, tampilkan saldo
-                                $('#saldoAmount').text(response.saldo);
-                                $('#saldoContainer').show();
-                            } else {
-                                // RFID tidak terdaftar, sembunyikan saldo
-                                $('#saldoContainer').hide();
-                            }
-                        },
-                        error: function(error) {
-                            console.error('Gagal memeriksa RFID:', error);
-                        }
-                    });
-                }
-
-                // Kode untuk menghubungkan pembaca RFID dan memanggil onRFIDRead
-                // ...
-
-                // Callback yang dipanggil saat tombol "Submit Order" ditekan
-                window.submitOrder = function() {
-                    // Lakukan logika penyimpanan order dan pembaruan saldo
-                    // ...
-
-                    // Setelah penyimpanan order, perbarui tampilan modal
-                    showOrderModal();
-
-                    // Reset data keranjang belanja
-                    resetCartData();
-                };
-
-            });
             let quantities = {};
             const btnMin = document.querySelectorAll('.btn-danger');
             const btnPlus = document.querySelectorAll('.btn-success');
@@ -423,18 +271,27 @@
             function updateCartView() {
                 let totalItems = 0;
                 let totalPrice = 0;
+                let itemsDetail = [];
 
                 cartItemsList.innerHTML = ''; // Menghapus item-item sebelumnya dalam daftar
 
                 Object.keys(quantities).forEach(function(key) {
                     if (quantities[key] > 0) {
-                        totalItems++;
+                        totalItems += quantities[key];
                         const [type, id] = key.split('-');
                         const itemName = document.getElementById(`name-${type}-${id}`).textContent;
                         const itemPrice = quantities[key] * parseFloat(document.getElementById(
                             `price-${type}-${id}`).dataset.price);
 
                         totalPrice += itemPrice;
+
+                        itemsDetail.push({
+                            name: itemName,
+                            quantity: quantities[key],
+                            pricePerItem: parseFloat(document.getElementById(`price-${type}-${id}`)
+                                .dataset.price),
+                            totalPrice: itemPrice
+                        });
 
                         const listItem = document.createElement('li');
                         listItem.textContent =
@@ -443,16 +300,26 @@
                     }
                 });
 
+                // Simpan detail order sebagai JSON string dalam input hidden
+                document.getElementById('hiddenTotalItems').value = totalItems;
+                document.getElementById('hiddenTotalPrice').value = totalPrice;
+                // Contoh untuk menyimpan detail order, gantikan dengan input hidden yang sesuai
+                // Pastikan Anda memiliki input hidden untuk menyimpan data JSON
+                document.getElementById('yourHiddenInputForOrderDetails').value = JSON.stringify(itemsDetail);
+
                 totalItemsElement.textContent = `Jumlah Jenis Orderan: ${totalItems}`;
                 totalPriceElement.textContent = `Total Harga: Rp ${totalPrice.toFixed(2)}`;
                 showOrderModal();
             }
 
-            function showOrderModal() {
 
+
+            function showOrderModal() {
                 const orderModalItemList = document.getElementById('orderModalItemList');
-                const totalItemsElement = document.getElementById('totalItems');
-                const totalPriceElement = document.getElementById('totalPrice');
+                const totalItemsElement = document.getElementById(
+                    'totalItems'); // Pastikan ID sesuai dengan markup HTML Anda
+                const totalPriceElement = document.getElementById(
+                    'totalPrice'); // Pastikan ID sesuai dengan markup HTML Anda
                 orderModalItemList.innerHTML = '';
 
                 let totalQuantity = 0;
@@ -472,25 +339,20 @@
 
                         const listItem = document.createElement('li');
                         listItem.innerHTML =
-                            `<strong>${itemName}:</strong> ${quantity}x Rp ${itemPrice.toFixed(2)} = Rp ${(itemPrice * quantity).toFixed(2)}`;
+                            `<strong>${itemName}:</strong> ${quantity}x Rp ${itemPrice.toFixed(0)} = Rp ${(itemPrice * quantity).toFixed(0)}__`;
                         orderModalItemList.appendChild(listItem);
                     }
                 });
 
-                totalItemsElement.textContent = totalQuantity;
-                totalPriceElement.textContent = totalPrice.toFixed(2);
+                // Memperbarui total item dan harga pada modal
+                totalItemsElement.textContent = `Total Item: ${totalQuantity}`;
+                totalPriceElement.textContent = `Total Harga: Rp ${totalPrice.toFixed(2)}`;
 
-                // Memperbarui modal
+                // Tampilkan modal
                 $('#orderModal').modal('show');
             }
 
-            function saveOrder() {
-                // Tambahkan logika penyimpanan order di sini sesuai kebutuhan
-                // Misalnya, Anda dapat mengirim data pesanan ke server atau menyimpan ke database
-                // Setelah menyimpan, Anda dapat menutup modal dan melakukan reset data
-                $('#orderModal').modal('hide');
-                resetCartData();
-            }
+
             $('#orderModal').on('shown.bs.modal', function() {
                 document.querySelectorAll('#orderModal .btn-quantity').forEach(function(btnQuantity) {
                     btnQuantity.addEventListener('click', function() {
@@ -498,14 +360,6 @@
                             -1);
                     });
                 });
-            });
-            $('#orderModal .btn-primary').on('click', function() {
-                // Tambahkan logika penyimpanan order di sini jika diperlukan
-                $('#orderModal').modal('hide');
-                resetCartData();
-            });
-            $('#orderModal .btn-secondary').on('click', function() {
-                $('#orderModal').modal('hide');
             });
 
             function showTab(tab) {
@@ -565,46 +419,71 @@
                 });
             }
         });
+
+        $('#orderForm').on('submit', function(event) {
+            updateFormValues(); // Memastikan nilai terbaru diset ke input tersembunyi sebelum submit
+        });
+
+        function updateFormValues() {
+            // Misalkan `totalItems`, `totalPrice`, dan `orderDetails` dihitung di sini
+            // Contoh sederhana, sesuaikan dengan logika aplikasi Anda
+            var totalItems = document.getElementById('totalItems').textContent.split(': ')[1];
+            var totalPrice = document.getElementById('totalPrice').textContent.split(': Rp ')[1];
+            var orderDetails = document.getElementById('orderModalItemList').textContent;
+
+            document.getElementById('hiddenTotalItems').value = totalItems;
+            document.getElementById('hiddenTotalPrice').value = totalPrice;
+            document.getElementById('hiddenOrderDetails').value = JSON.stringify(orderDetails);
+
+
+        }
     </script>
     <script>
-        // Fungsi untuk menampilkan saldo, harga total, dan sisa saldo
-
-        // Callback yang dipanggil saat RFID berhasil dibaca
-        function onRFIDRead(rfidData) {
-            // Simpan ID RFID ke dalam input
-            $('#rfidInput').val(rfidData);
-
-            // Lakukan permintaan AJAX untuk memeriksa apakah RFID terdaftar dan dapatkan saldo
-            $.ajax({
-                url: '/api/check-rfid',
-                method: 'POST',
-                data: {
-                    rfidData: rfidData
-                },
-                success: function(response) {
-                    if (response.registered) {
-                        // RFID terdaftar, tampilkan saldo
-                        $('#saldoAmount').text(response.saldo);
-                        $('#saldoContainer').show();
-                        // Also, show the modal after updating saldo
-                        $('#orderModal').modal('show');
-                    } else {
-                        // RFID tidak terdaftar, sembunyikan saldo
-                        $('#saldoContainer').hide();
+        $(document).ready(function() {
+            $('#checkSaldoForm').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'), // Menggunakan action dari form itu sendiri
+                    data: form.serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Saldo Anda',
+                                text: 'Rp ' + response.saldo,
+                                icon: 'info'
+                            }).then((result) => {
+                                // Setelah pengguna klik 'OK', bersihkan inputan
+                                if (result.value) {
+                                    $('input[name="rfidInputCheck"]').val('');
+                                    $('input[name="rfidInputCheck"]')
+                                        .focus(); // Opsional, untuk fokus kembali ke inputan
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani jika terjadi error pada request
+                        Swal.fire('Error!', 'Terjadi kesalahan, silakan coba lagi.', 'error');
                     }
-                },
-                error: function(error) {
-                    console.error('Gagal memeriksa RFID:', error);
-                }
+                });
             });
-        }
+        });
 
-        function updateSaldoInfo(saldo, totalPrice) {
-            const currentSaldo = parseFloat(document.getElementById('saldoAmount').innerText);
-            const remainingSaldo = currentSaldo - totalPrice;
 
-            document.getElementById('currentSaldo').innerText = currentSaldo.toFixed(2);
-            document.getElementById('remainingSaldo').innerText = remainingSaldo.toFixed(2);
-        }
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('error') }}',
+            });
+        @endif
     </script>
 @endpush

@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-Kantin | Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -28,97 +30,74 @@
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- DataTables JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
-
-    <!-- DataTables Buttons CSS -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
-
-    <!-- DataTables Buttons JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
-
-    <!-- DataTables Responsive CSS -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-
-    <!-- DataTables Responsive JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js">
-    </script>
-
-    <script nonce="58dd6ac5-7b9d-4a4e-8e22-c794add17497">
+    <script nonce="239df0da-7c5a-44bf-bc88-027fbee729d8">
         try {
             (function(w, d) {
-                ! function(bu, bv, bw, bx) {
-                    bu[bw] = bu[bw] || {};
-                    bu[bw].executed = [];
-                    bu.zaraz = {
+                ! function(o, p, q, r) {
+                    o[q] = o[q] || {};
+                    o[q].executed = [];
+                    o.zaraz = {
                         deferred: [],
                         listeners: []
                     };
-                    bu.zaraz.q = [];
-                    bu.zaraz._f = function(by) {
+                    o.zaraz.q = [];
+                    o.zaraz._f = function(s) {
                         return async function() {
-                            var bz = Array.prototype.slice.call(arguments);
-                            bu.zaraz.q.push({
-                                m: by,
-                                a: bz
+                            var t = Array.prototype.slice.call(arguments);
+                            o.zaraz.q.push({
+                                m: s,
+                                a: t
                             })
                         }
                     };
-                    for (const bA of ["track", "set", "debug"]) bu.zaraz[bA] = bu.zaraz._f(bA);
-                    bu.zaraz.init = () => {
-                        var bB = bv.getElementsByTagName(bx)[0],
-                            bC = bv.createElement(bx),
-                            bD = bv.getElementsByTagName("title")[0];
-                        bD && (bu[bw].t = bv.getElementsByTagName("title")[0].text);
-                        bu[bw].x = Math.random();
-                        bu[bw].w = bu.screen.width;
-                        bu[bw].h = bu.screen.height;
-                        bu[bw].j = bu.innerHeight;
-                        bu[bw].e = bu.innerWidth;
-                        bu[bw].l = bu.location.href;
-                        bu[bw].r = bv.referrer;
-                        bu[bw].k = bu.screen.colorDepth;
-                        bu[bw].n = bv.characterSet;
-                        bu[bw].o = (new Date).getTimezoneOffset();
-                        if (bu.dataLayer)
-                            for (const bH of Object.entries(Object.entries(dataLayer).reduce(((bI, bJ) => ({
-                                    ...bI[1],
-                                    ...bJ[1]
-                                })), {}))) zaraz.set(bH[0], bH[1], {
+                    for (const u of ["track", "set", "debug"]) o.zaraz[u] = o.zaraz._f(u);
+                    o.zaraz.init = () => {
+                        var v = p.getElementsByTagName(r)[0],
+                            w = p.createElement(r),
+                            x = p.getElementsByTagName("title")[0];
+                        x && (o[q].t = p.getElementsByTagName("title")[0].text);
+                        o[q].x = Math.random();
+                        o[q].w = o.screen.width;
+                        o[q].h = o.screen.height;
+                        o[q].j = o.innerHeight;
+                        o[q].e = o.innerWidth;
+                        o[q].l = o.location.href;
+                        o[q].r = p.referrer;
+                        o[q].k = o.screen.colorDepth;
+                        o[q].n = p.characterSet;
+                        o[q].o = (new Date).getTimezoneOffset();
+                        if (o.dataLayer)
+                            for (const B of Object.entries(Object.entries(dataLayer).reduce(((C, D) => ({
+                                    ...C[1],
+                                    ...D[1]
+                                })), {}))) zaraz.set(B[0], B[1], {
                                 scope: "page"
                             });
-                        bu[bw].q = [];
-                        for (; bu.zaraz.q.length;) {
-                            const bK = bu.zaraz.q.shift();
-                            bu[bw].q.push(bK)
+                        o[q].q = [];
+                        for (; o.zaraz.q.length;) {
+                            const E = o.zaraz.q.shift();
+                            o[q].q.push(E)
                         }
-                        bC.defer = !0;
-                        for (const bL of [localStorage, sessionStorage]) Object.keys(bL || {}).filter((bN => bN
-                            .startsWith("_zaraz_"))).forEach((bM => {
+                        w.defer = !0;
+                        for (const F of [localStorage, sessionStorage]) Object.keys(F || {}).filter((H => H
+                            .startsWith("_zaraz_"))).forEach((G => {
                             try {
-                                bu[bw]["z_" + bM.slice(7)] = JSON.parse(bL.getItem(bM))
+                                o[q]["z_" + G.slice(7)] = JSON.parse(F.getItem(G))
                             } catch {
-                                bu[bw]["z_" + bM.slice(7)] = bL.getItem(bM)
+                                o[q]["z_" + G.slice(7)] = F.getItem(G)
                             }
                         }));
-                        bC.referrerPolicy = "origin";
-                        bC.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(bu[bw])));
-                        bB.parentNode.insertBefore(bC, bB)
+                        w.referrerPolicy = "origin";
+                        w.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(o[q])));
+                        v.parentNode.insertBefore(w, v)
                     };
-                    ["complete", "interactive"].includes(bv.readyState) ? zaraz.init() : bu.addEventListener(
+                    ["complete", "interactive"].includes(p.readyState) ? zaraz.init() : o.addEventListener(
                         "DOMContentLoaded", zaraz.init)
                 }(w, d, "zarazData", "script");
             })(window, document)
@@ -130,12 +109,6 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-                height="60" width="60">
-        </div>
-
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
             <ul class="navbar-nav">
@@ -143,12 +116,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
-                {{-- <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li> --}}
+
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -175,94 +143,6 @@
                     </div>
                 </li>
 
-                {{-- <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="{{ asset('assets/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="{{ asset('assets/dist/img/user8-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="{{ asset('assets/dist/img/user3-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
@@ -282,22 +162,6 @@
 
         <div class="content-wrapper">
 
-            {{-- <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
 
             <section class="content">
                 @yield('content')
@@ -307,10 +171,10 @@
         </div>
 
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
+            <strong>Copyright &copy; 2024 <a href="https://adminlte.io"></a>.</strong>
+
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
+                <b>Version</b> 1.0.
             </div>
         </footer>
 
@@ -320,12 +184,6 @@
 
     </div>
 
-    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -359,6 +217,21 @@
     <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
 
     <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     @stack('script')
 </body>
 

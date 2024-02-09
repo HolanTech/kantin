@@ -1,11 +1,24 @@
 @extends('layouts.admin')
 
 @section('content')
+    <style>
+        /* Penambahan CSS untuk vertikal centering */
+        .vertical-center {
+            display: flex;
+            align-items: center;
+            /* Ini akan menengahkan item-item flex secara vertikal */
+            justify-content: center;
+            /* Ini akan menengahkan item-item flex secara horizontal */
+        }
+    </style>
     <div class="row p-3">
         <div class="col-6 p-3">
             <div class="card p-3">
-                <h1>Top-UP</h1>
 
+
+                <div class="card-header bg-primary vertical-center">
+                    <h3 class="card-title">Top-up</h3>
+                </div>
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -27,6 +40,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="admin">Biaya Admin:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="admin" placeholder="Nominal" value="0"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Pilih Metode Pembayaran:</label>
                         <div class="form-check">
                             <input type="radio" class="form-check-input" name="paymentMethod" value="cash" checked>
@@ -34,11 +54,12 @@
                         </div>
                         <div class="form-check">
                             <input type="radio" class="form-check-input" name="paymentMethod" value="midtrans">
-                            <label class="form-check-label">Midtrans</label>
+                            <label class="form-check-label">Debit</label>
                         </div>
+
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">TOP-UP</button>
+                        <button class="btn btn-primary w-100" type="submit">TOP-UP</button>
                     </div>
                 </form>
             </div>
@@ -46,16 +67,10 @@
 
         <div class="col-6 p-3">
             <div class="card p-3">
-                <h1>Cek Saldo</h1>
-                @if (session('saldo'))
-                    <div class="alert alert-info">
-                        Saldo Tersedia: Rp {{ session('saldo') }}
-                    </div>
-                @elseif(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                <div class="card-header bg-primary vertical-center">
+                    <h3 class="card-title">Cek Saldo</h3>
+                </div>
+
 
                 <form method="post" action="{{ route('admin.user.checksaldo') }}" id="checkSaldoForm">
                     @csrf
@@ -77,6 +92,15 @@
                 <div id="saldoContainer" style="display: none;">
                     <p id="saldoText">Saldo Tersedia: Rp <span id="saldoAmount">0</span></p>
                 </div>
+                @if (session('saldo'))
+                    <div class="alert alert-info">
+                        Saldo Tersedia: Rp {{ session('saldo') }}
+                    </div>
+                @elseif(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

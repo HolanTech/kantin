@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Wd;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -20,16 +21,32 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'password',
-        'username',
+        'rfid',
         'no_hp',
         'role',
     ];
 
-    public function sekolahs()
+    public function saldos()
     {
-        return $this->hasMany(Sekolah::class, 'id');
+        return $this->hasMany(Saldo::class, 'rfid', 'rfid');
     }
-
+    public function topup()
+    {
+        return $this->belongsTo(Topup::class, 'rfid', 'rfid');
+    }
+    public function wd()
+    {
+        return $this->belongsTo(Wd::class, 'rfid', 'rfid');
+    }
+    public function details()
+    {
+        return $this->belongsTo(OrderDetail::class, 'rfid', 'rfid');
+    }
+    public function orders()
+    {
+        // Asumsi bahwa model OrderDetail memiliki foreign key 'order_id' yang merujuk ke 'id' pada tabel orders
+        return $this->hasMany(Order::class, 'rfid');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

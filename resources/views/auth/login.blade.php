@@ -21,7 +21,7 @@
                                 <div class="col-md-6">
                                     <input id="login" type="text"
                                         class="form-control @error('login') is-invalid @enderror" name="login"
-                                        value="{{ old('login') }}" required autocomplete="login" autofocus>
+                                        value="{{ old('login') }}" required autofocus>
 
                                     @error('login')
                                         <span class="invalid-feedback" role="alert">
@@ -33,13 +33,19 @@
 
                             <div class="row mb-3">
                                 <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                                    class="col-md-4 col-form-label text-md-start">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password" value="123456">
-
+                                    <div class="input-group">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                                                style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;"><ion-icon
+                                                    name="eye-outline"></ion-icon></button>
+                                        </div>
+                                    </div>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -93,3 +99,16 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script>
+        $('#togglePassword').click(function() {
+            const password = $('#password');
+            const type = password.attr('type') === 'password' ? 'text' : 'password';
+            password.attr('type', type);
+            // Mengganti ikon berdasarkan kondisi
+            $(this).find('svg').toggleClass(
+                '<ion-icon name="eye-off-outline"></ion-icon>'
+            );
+        });
+    </script>
+@endpush

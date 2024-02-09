@@ -14,9 +14,9 @@ class FoodController extends Controller
         $foods = Food::where('kantin_id', $id)->get();
         return view('food.index', compact('foods'));
     }
-    public function updateStatus(Request $request)
+    public function updateStatus(Request $request, $id) // Tambahkan parameter $id
     {
-        $food = Food::findOrFail($request->id);
+        $food = Food::findOrFail($id); // Gunakan $id yang di-pass sebagai parameter
 
         // Ubah status
         $food->status = ($food->status == 'ready') ? 'not ready' : 'ready';
@@ -25,6 +25,7 @@ class FoodController extends Controller
         // Beri respons dengan status terbaru
         return response()->json(['status' => $food->status]);
     }
+
 
 
     public function create()
@@ -37,7 +38,7 @@ class FoodController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'like' => 'nullable',
+            'likes' => 'nullable',
             'image' => 'required|image',
             'status' => 'required',
         ]);
@@ -49,7 +50,7 @@ class FoodController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
-            'like' => $request->like,
+            'likes' => $request->like,
             'image' => $imagePath,
             'status' => $request->status,
         ]);
@@ -68,7 +69,7 @@ class FoodController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'like' => 'nullable',
+            'likes' => 'nullable',
             'image' => 'nullable|image',
             'status' => 'required',
         ]);

@@ -1,15 +1,22 @@
 @extends('layouts.admin')
 
 @section('content')
+    <style>
+        /* Penambahan CSS untuk vertikal centering */
+        .vertical-center {
+            display: flex;
+            align-items: center;
+            /* Ini akan menengahkan item-item flex secara vertikal */
+            justify-content: center;
+            /* Ini akan menengahkan item-item flex secara horizontal */
+        }
+    </style>
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">canteen Table</h3>
+        <div class="card-header bg-primary vertical-center">
+            <h3 class="card-title">Canteen Table</h3>
         </div>
-        {{-- @if (Route::has('register'))
-            <a class="btn btn-primary pr-0 w-25" href="{{ route('register') }}">{{ __('Add canteen') }}</a>
-        @endif --}}
         <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -27,7 +34,16 @@
                             <td>{{ $canteen->rfid }}</td>
                             <td>{{ $canteen->name }}</td>
                             <td>{{ $canteen->no_hp }}</td>
-                            <td></td>
+                            <td>
+                                @if ($canteen->saldos->isNotEmpty())
+                                    @foreach ($canteen->saldos as $saldo)
+                                        Rp. {{ number_format($saldo->saldo, 2) }}
+                                        <br>
+                                    @endforeach
+                                @else
+                                    Rp. 0.00
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('user.edit', $canteen->id) }}" class="btn btn-primary">Edit</a>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
@@ -75,22 +91,8 @@
 
 @push('script')
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+        $(document).ready(function() {
+            $('#datatable').DataTable();
         });
     </script>
 @endpush

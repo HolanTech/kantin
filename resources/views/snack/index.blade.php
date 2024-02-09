@@ -42,7 +42,7 @@
             width: 100%;
             /* Membuat gambar penuh lebar card */
             /* height: 45%; */
-            height: 120px;
+            height: 150px;
             /* Tentukan tinggi tetap */
             justify-content: center;
             object-fit: cover;
@@ -114,12 +114,12 @@
 @push('script')
     <script>
         function updateStatus(snackId) {
-            // Kirim permintaan AJAX ke server untuk memperbarui status
             $.ajax({
                 type: "POST",
-                url: '/update-status/' + snackId,
+                url: '{{ url('/update-snack-status/') }}' + '/' + snackId, // Perbaiki URL sesuai route
                 data: {
                     _token: '{{ csrf_token() }}',
+                    // id: snackId, // Ini tidak perlu karena `id` sudah ada di URL
                 },
                 success: function(data) {
                     // Perbarui tampilan tombol status

@@ -1,0 +1,99 @@
+.card {
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 20px;
+}
+
+.card-header {
+    position: fixed;
+    top: 0%;
+    /* margin-bottom: -50px; */
+    width: 100%;
+    z-index: 1000;
+    background-color: #04b7db;
+}
+
+.nav-tabs .nav-item {
+    margin-right: 10px;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active:hover,
+.nav-tabs .nav-link.active:focus {
+    color: #00f1e9 !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.card-equal-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-equal-height .card {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    width: 100% !important;
+    height: 150px !important;
+    object-fit: cover !important;
+}
+
+.card-menu {
+    /* margin-top: 5px; */
+    background-color: #04b7db;
+}
+
+.card-body {
+    margin-top: 25px;
+    height: 75px;
+    margin-bottom: 2px;
+}
+
+.btn-quantity {
+    width: 30px;
+    height: 30px;
+    line-height: 20px;
+}
+
+.status-badge {
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #dc3545;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.card-title {
+    margin-top: -40px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.card-text {
+    margin-top: -10px;
+    font-size: 12px;
+}
+
+.item-price {
+    margin-top: -20px;
+}
+
+.col-4 {
+    margin-top: -5px;
+}
+
+.floating-action-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 5000;
+}
+
+body {
+    margin-bottom: 50%;
+    background-color: #0cbae1;
+}

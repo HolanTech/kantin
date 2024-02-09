@@ -1,36 +1,67 @@
 @extends('layouts.master')
 
 @section('title', 'E-Kantin')
-
+@section('order')
+    {{ $orderCount }}
+@endsection
 @section('content')
     <style>
-        .custom-carousel .carousel-item {
-            height: 300px;
-            /* Contoh tinggi, sesuaikan sesuai kebutuhan */
-        }
-
-        .custom-carousel .carousel-item img {
-            height: 100%;
-            object-fit: cover;
-            /* Ini akan menjaga rasio aspek gambar */
+        .carousel-item {
+            width: 100% !important;
+            height: 250px !important;
+            object-fit: cover !important;
         }
     </style>
 
-    <div class="container">
-        <div id="carouselExampleIndicators" class="carousel slide custom-carousel" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="{{ asset('img/menu3.png') }}" alt="First slide">
+
+    <!-- Carousel for Foods -->
+    <div class="container ">
+        <div class="row">
+            <div class="col-4">
+                <div id="carouselFoods" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach ($foods as $food)
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <img class="d-block w-100" src="{{ Storage::url($food->image) }}" alt="{{ $food->name }}">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('img/menu1.png') }}" alt="Second slide">
+            </div>
+
+            <!-- Carousel for Drinks -->
+            <div class="col-4">
+
+                <div id="carouselDrinks" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach ($drinks as $drink)
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <img class="d-block w-100" src="{{ Storage::url($drink->image) }}"
+                                    alt="{{ $drink->name }}">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('img/menu2.png') }}" alt="Third slide">
+            </div>
+
+            <!-- Carousel for Snacks -->
+            <div class="col-4">
+
+                <div id="carouselSnacks" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach ($snacks as $snack)
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <img class="d-block w-100" src="{{ Storage::url($snack->image) }}"
+                                    alt="{{ $snack->name }}">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <div class="container mt-4">
         <div class="row">
             <!-- Card for Food -->
@@ -48,7 +79,8 @@
                 <div class="card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <h3 class="card-title mb-0">Drink</h3>
-                        <a href="{{ route('drink.index') }}" class="btn btn-primary"> <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('drink.index') }}" class="btn btn-primary"> <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -58,13 +90,14 @@
                 <div class="card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <h3 class="card-title mb-0">Snack</h3>
-                        <a href="{{ route('snack.index') }}" class="btn btn-primary"> <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('snack.index') }}" class="btn btn-primary"> <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-4">
+    {{-- <div class="container mt-4">
         <div class="row">
             <!-- Tombol untuk Menampilkan Modal -->
             <div class="col-md-12 text-center">
@@ -94,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 @endsection
 @push('script')
@@ -106,6 +139,14 @@
             $('.carousel').carousel({
                 interval: 3000 // Waktu pergantian gambar dalam milidetik (3 detik)
             });
+
+            var maxHeight = 0;
+            $('.card').each(function() {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+            });
+            $('.card').height(maxHeight);
         });
     </script>
 @endpush

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\Sekolah;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Saldo;
+use App\Models\Sekolah;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -33,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -56,11 +58,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'rfid' => ['required', 'string', 'max:255', 'unique:users'], // tambahkan ini
-            'no_hp' => ['required', 'string', 'max:255'], // tambahkan ini
-            'role' => ['required', 'string', 'max:255'], // tambahkan ini
+            'rfid' => ['required', 'string', 'max:255', 'unique:users'],
+            'no_hp' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:4'], // Validasi untuk password
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -71,12 +75,26 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'rfid' => $data['rfid'],
-            'no_hp' => $data['no_hp'],
-            'role' => $data['role'],
-            'password' => Hash::make('123456'),
-        ]);
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'name' => $data['name'],
+                'rfid' => $data['rfid'],
+                'no_hp' => $data['no_hp'],
+                'role' => $data['role'],
+                'password' => Hash::make($data['password']), // Gunakan password dari inputan
+            ]);
+
+            Saldo::create([
+                'rfid' => $data['rfid'],
+                'saldo' => 0,
+            ]);
+
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Food;
+use App\Models\Drink;
+use App\Models\Order;
+use App\Models\Snack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,10 +26,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // Dalam controller
     public function index()
     {
-        return view('home');
+        $id = Auth::id();
+        // Menggunakan whereDate untuk membandingkan kolom 'tanggal' dengan tanggal hari ini
+        $orderCount = Order::where('kantin_id', $id)
+            ->whereDate('tanggal', now()->toDateString())
+            ->count();
+        $foods = Food::all(); // asumsikan Anda memiliki model Food
+        $drinks = Drink::all(); // asumsikan Anda memiliki model Drink
+        $snacks = Snack::all(); // asumsikan Anda memiliki model Snack
+
+        return view('home', compact('foods', 'drinks', 'snacks', 'orderCount'));
     }
+
     public function homeuser()
     {
         return view('user.home');

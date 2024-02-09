@@ -38,7 +38,7 @@ class DrinkController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'like' => 'nullable',
+            'likes' => 'nullable',
             'image' => 'required|image',
             'status' => 'required',
         ]);
@@ -51,7 +51,7 @@ class DrinkController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
-            'like' => $request->like,
+            'likes' => $request->like,
             'image' => $imagePath,
             'status' => $request->status,
         ]);
@@ -70,7 +70,7 @@ class DrinkController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'like' => 'nullable',
+            'likes' => 'nullable',
             'image' => 'nullable|image',
             'status' => 'required',
         ]);
