@@ -26,8 +26,7 @@
                     </li>
                 </div>
                 <li class="nav-item">
-                    <form method="post" action="{{ route('admin.user.checksaldo') }}" id="checkSaldoForm"
-                        class="form-inline">
+                    <form method="post" action="{{ route('order.checksaldo') }}" id="checkSaldoForm" class="form-inline">
                         @csrf
                         <div class="input-group">
                             <input type="password" class="form-control" name="rfidInputCheck" autofocus

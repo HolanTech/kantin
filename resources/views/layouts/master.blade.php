@@ -42,6 +42,8 @@
     <div id="app">
         <!-- Main Content -->
         <main class="py-4 mt-5">
+            @include('components.notifications')
+
             @yield('content')
             <div style="height: 70px;"></div>
         </main>

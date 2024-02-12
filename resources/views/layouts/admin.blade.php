@@ -154,6 +154,16 @@
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary m-1" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+
             </ul>
         </nav>
 
@@ -164,6 +174,8 @@
 
 
             <section class="content">
+                @include('components.notifications')
+
                 @yield('content')
 
             </section>

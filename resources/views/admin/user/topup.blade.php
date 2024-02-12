@@ -53,7 +53,7 @@
                             <label class="form-check-label">Cash</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="paymentMethod" value="midtrans">
+                            <input type="radio" class="form-check-input" name="paymentMethod" value="debet">
                             <label class="form-check-label">Debit</label>
                         </div>
 

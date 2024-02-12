@@ -5,14 +5,13 @@
 
         <div class="row">
             <div class="col-lg-3 col-6">
-
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $users }}</h3>
                         <p>Users</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="fas fa-users"></i> <!-- Updated icon -->
                     </div>
                     <a href="{{ route('admin.user') }}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
@@ -20,14 +19,13 @@
             </div>
 
             <div class="col-lg-3 col-6">
-
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ $canteens }}<sup style="font-size: 20px"></sup></h3>
+                        <h3>{{ $canteens }}</h3>
                         <p>Canteen</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="fas fa-utensils"></i> <!-- Updated icon -->
                     </div>
                     <a href="{{ route('admin.canteen') }}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
@@ -35,14 +33,13 @@
             </div>
 
             <div class="col-lg-3 col-6">
-
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>{{ $sales }}</h3>
                         <p>Transaction</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person-add"></i>
+                        <i class="fas fa-exchange-alt"></i> <!-- Updated icon -->
                     </div>
                     <a href="{{ route('sales.filter', ['user' => '', 'kantin_id' => '', 'bulan' => '', 'date_start' => now()->format('Y-m-d'), 'date_end' => now()->format('Y-m-d')]) }}"
                         class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
@@ -50,27 +47,26 @@
             </div>
 
             <div class="col-lg-3 col-6">
-
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{ $topup }}</h3>
-                        <p>Top Up </p>
+                        <p>Top Up</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="fas fa-wallet"></i> <!-- Updated icon -->
                     </div>
                     <a href="{{ route('topup.filter', ['user' => '', 'bulan' => '', 'date_start' => now()->format('Y-m-d'), 'date_end' => now()->format('Y-m-d')]) }}"
                         class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-
         </div>
+
         <div class="row">
             <div class="col-12">
 
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Area Chart</h3>
+                        <h3 class="card-title">Daily Transaction</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -95,7 +91,7 @@
             <div class="col-12">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Bar Chart</h3>
+                        <h3 class="card-title">Monthly Transaction</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>

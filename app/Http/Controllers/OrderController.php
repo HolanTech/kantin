@@ -47,6 +47,24 @@ class OrderController extends Controller
         $order = Order::where('kantin_id', $id)->orderBy('tanggal', 'desc')->get();
         return view('order.report', compact('order'));
     }
+    public function checkSaldo(Request $request)
+    {
+        // Validasi request
+        $request->validate([
+            'rfidInputCheck' => 'required',
+        ]);
+
+        // Membaca data saldo dari database
+        $saldo = Saldo::where('rfid', $request->rfidInputCheck)->first();
+
+        if ($saldo) {
+            // Jika saldo ada, tampilkan saldo
+            return response()->json(['success' => true, 'message' => 'Saldo ditemukan.', 'saldo' => $saldo->saldo]);
+        } else {
+            // Jika saldo tidak ada, berikan pesan tidak ditemukan
+            return response()->json(['success' => false, 'message' => 'RFID tidak ditemukan.']);
+        }
+    }
     public function create()
     {
         $id = Auth::id();

@@ -57,7 +57,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
+            'rfid' => 'required|string|max:255|unique:users,rfid,' . $id, // pastikan rfid unik kecuali untuk user yang sedang di-update
             'no_hp' => 'required|string|max:15',
             'password' => 'nullable|string|min:6',
             'role' => 'required|in:pengguna,pengelola',
@@ -66,22 +66,20 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
-        $user->username = $request->username;
+        $user->rfid = $request->rfid;
         $user->no_hp = $request->no_hp;
         $user->role = $request->role;
 
-        // Jika password adalah teks biasa, enkripsi dengan hash
-        if ($request->filled('password') && !Hash::needsRehash($request->password)) {
+        // Enkripsi password hanya jika field diisi
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
-        } elseif ($request->filled('password')) {
-            // Jika password adalah hash, langsung simpan tanpa re-encryption
-            $user->password = $request->password;
         }
 
         $user->save();
 
         return redirect()->route('admin.user')->with('success', 'User updated successfully.');
     }
+
 
 
     /**

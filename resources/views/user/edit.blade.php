@@ -19,11 +19,11 @@
         </div>
 
         <div class="row mb-3">
-            <label for="username" class="col-md-4 col-form-label text-md-start">{{ __('RFID') }}</label>
+            <label for="rfid" class="col-md-4 col-form-label text-md-start">{{ __('RFID') }}</label>
             <div class="col-md-6">
-                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
-                    name="username" value="{{ old('username', $user->username) }}" required autocomplete="username">
-                @error('username')
+                <input id="rfid" type="text" class="form-control @error('rfid') is-invalid @enderror" name="rfid"
+                    value="{{ old('rfid', $user->rfid) }}" required autocomplete="rfid">
+                @error('rfid')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -48,8 +48,7 @@
             <label for="password" class="col-md-4 col-form-label text-md-start">{{ __('Password') }}</label>
             <div class="col-md-6 input-group">
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                    name="password" {{ old('password') ? '' : 'value=' . $user->password }} required
-                    autocomplete="new-password">
+                    name="password" required autocomplete="new-password">
                 <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('password')">
                     <i id="password-toggle-icon" class="far fa-eye"></i>
                 </button>
@@ -85,7 +84,6 @@
             </div>
         </div>
     </form>
-
 
     <script>
         function togglePasswordVisibility(fieldId) {

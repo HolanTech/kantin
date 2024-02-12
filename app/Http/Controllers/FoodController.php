@@ -78,7 +78,7 @@ class FoodController extends Controller
         $food->name = $request->name;
         $food->price = $request->price;
         $food->description = $request->description;
-        $food->like = $request->like;
+        $food->likes = $request->like;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/food_images');
             $food->image = $imagePath;

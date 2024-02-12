@@ -30,6 +30,8 @@
 <body> <!-- Warna hijau stabilo -->
     <div id="app">
         <main class="py-4">
+            @include('components.notifications')
+
             @yield('content')
         </main>
     </div>
