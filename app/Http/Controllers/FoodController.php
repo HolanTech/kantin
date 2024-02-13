@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Food;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
 {
@@ -50,13 +51,14 @@ class FoodController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
-            'likes' => $request->like,
+            'likes' => $request->likes, // Corrected from like to likes
             'image' => $imagePath,
             'status' => $request->status,
         ]);
 
         return redirect()->route('food.index')->with('success', 'Food added successfully');
     }
+
     // Update food
     public function edit($id)
     {
@@ -78,16 +80,27 @@ class FoodController extends Controller
         $food->name = $request->name;
         $food->price = $request->price;
         $food->description = $request->description;
-        $food->likes = $request->like;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/food_images');
+        $food->likes = $request->likes;
+
+        // Periksa jika ada file gambar yang diunggah
+        if ($request->hasFile('new_image')) {
+            // Hapus gambar lama jika perlu
+            if ($food->image) {
+                Storage::delete($food->image);
+            }
+
+            // Simpan gambar baru dan update path-nya
+            $imagePath = $request->file('new_image')->store('public/food_images');
             $food->image = $imagePath;
         }
+
         $food->status = $request->status;
         $food->save();
 
         return redirect()->route('food.index')->with('success', 'Food updated successfully');
     }
+
+
 
     // Delete food
     public function destroy($id)

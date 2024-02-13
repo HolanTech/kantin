@@ -79,9 +79,9 @@ class SnackController extends Controller
         $snack->name = $request->name;
         $snack->price = $request->price;
         $snack->description = $request->description;
-        $snack->like = $request->like;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/snack_images');
+        $snack->likes = $request->like;
+        if ($request->hasFile('new_image')) {
+            $imagePath = $request->file('new_image')->store('public/snack_images');
             $snack->image = $imagePath;
         }
         $snack->status = $request->status;

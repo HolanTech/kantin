@@ -79,9 +79,9 @@ class DrinkController extends Controller
         $drink->name = $request->name;
         $drink->price = $request->price;
         $drink->description = $request->description;
-        $drink->like = $request->like;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/drink_images');
+        $drink->likes = $request->like;
+        if ($request->hasFile('new_image')) {
+            $imagePath = $request->file('new_image')->store('public/drink_images');
             $drink->image = $imagePath;
         }
         $drink->status = $request->status;

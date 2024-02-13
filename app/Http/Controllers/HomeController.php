@@ -34,9 +34,9 @@ class HomeController extends Controller
         $orderCount = Order::where('kantin_id', $id)
             ->whereDate('tanggal', now()->toDateString())
             ->count();
-        $foods = Food::all(); // asumsikan Anda memiliki model Food
-        $drinks = Drink::all(); // asumsikan Anda memiliki model Drink
-        $snacks = Snack::all(); // asumsikan Anda memiliki model Snack
+        $foods = Food::where('kantin_id', $id)->get(); // asumsikan Anda memiliki model Food
+        $drinks = Drink::where('kantin_id', $id)->get(); // asumsikan Anda memiliki model Drink
+        $snacks = Snack::where('kantin_id', $id)->get(); // asumsikan Anda memiliki model Snack
 
         return view('home', compact('foods', 'drinks', 'snacks', 'orderCount'));
     }
