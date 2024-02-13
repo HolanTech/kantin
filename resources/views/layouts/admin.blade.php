@@ -183,7 +183,7 @@
         </div>
 
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024 <a href="https://adminlte.io"></a>.</strong>
+            <strong>Copyright &copy; <a href="https://ipeka.org/"> 2024</a>.</strong>
 
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0.

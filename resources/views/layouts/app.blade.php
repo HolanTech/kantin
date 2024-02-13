@@ -17,7 +17,7 @@
 </head>
 <style>
     body {
-        background: linear-gradient(to bottom, #00c8ec 0%, #f5f5f5 100%);
+        background: linear-gradient(to bottom, #009dec 0%, #ffffff 100%);
         background-repeat: no-repeat;
     }
 

@@ -5,7 +5,7 @@
         <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-header bg-primary d-flex justify-content-center text-white">
-                    <h3 class="card-title mb-0">Filter Transaksi</h3>
+                    <h3 class="card-title mb-0">Filter Penarikan</h3>
                 </div>
                 <div class="card-body">
                     <form id="filterForm" action="{{ route('wd.filter') }}" method="GET">
