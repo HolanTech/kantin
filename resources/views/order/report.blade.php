@@ -25,6 +25,10 @@
         }
     </style>
     <div class="container mt-2">
+        <div>
+            <h3> Saldo Kantin Saat ini : Rp.{{ number_format($saldo->saldo, 0) }}
+            </h3>
+        </div>
         <div class="table-responsive mt-4">
             <table id="datatable" class="table table-striped table-bordered">
                 <thead class="thead-dark">

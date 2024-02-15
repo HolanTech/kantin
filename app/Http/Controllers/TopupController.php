@@ -49,7 +49,7 @@ class TopupController extends Controller
             $query->whereBetween('created_at', [$startDate . " 00:00:00", $endDate . " 23:59:59"]);
         }
 
-        $topups = $query->get(); // Eksekusi query
+        $topups = $query->orderBy('tanggal', 'desc')->get(); // Eksekusi query
 
         return view('admin.report.topup.showall', compact('topups')); // Pastikan view Anda sesuai
     }
@@ -81,7 +81,7 @@ class TopupController extends Controller
             $query->whereBetween('created_at', [$startDate . " 00:00:00", $endDate . " 23:59:59"]);
         }
 
-        $orders = $query->get();
+        $orders = $query->orderBy('tanggal', 'desc')->get();
         // Menghitung total dari semua total_order
         $totalOrder = $orders->sum('debet');
 

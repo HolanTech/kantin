@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="nominalInput">Masukkan Nominal Top-UP:</label>
+                        <label for="nominalInput">Masukkan Nominal Penarikan:</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="nominalInput" placeholder="Nominal" required />
                         </div>
@@ -53,7 +53,7 @@
                             <label class="form-check-label">Cash</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="paymentMethod" value="midtrans">
+                            <input type="radio" class="form-check-input" name="paymentMethod" value="debit">
                             <label class="form-check-label">Debit</label>
                         </div>
 

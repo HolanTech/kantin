@@ -82,6 +82,14 @@
             z-index: 1500;
             text-decoration: none;
         }
+
+        img {
+            position: absolute;
+            right: 5%;
+            top: 5%;
+            width: 50px;
+            height: 40px;
+        }
     </style>
 </head>
 
@@ -89,6 +97,7 @@
     <a href="{{ route('order.create') }}" id="fab" class="btn btn-primary">Kembali</a>
 
     <div class="container">
+        <img src="{{ asset('assets/dist/img/logo.png') }}" alt="">
         <h2>Detail Transaksi</h2>
 
         <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($order->tanggal)->format('d-m-Y') }}
@@ -97,10 +106,10 @@
         <p><strong>RFID:</strong> {{ $order->rfid }}</p>
         <p><strong>Total Order:</strong> Rp{{ number_format($order->total_order, 2) }}</p>
 
-        ...
+        ...................................<span> Detail Pesanan </span>.................................
 
-        <h3>Detail Pesanan</h3>
-        <table>
+        <br><br>
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Nama Item</th>
@@ -126,8 +135,9 @@
                 </tr>
             </tbody>
         </table>
-
-        ...
+        <br>
+        <br>
+        ......................................... <span>Lunas</span> ..........................................
 
 
         <div style="margin-top: 20px;">

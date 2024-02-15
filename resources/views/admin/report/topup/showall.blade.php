@@ -19,6 +19,7 @@
                     <th scope="col">RFID</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Jumlah</th>
+                    <th scope="col">Biaya admin</th>
                     <th scope="col">Payment</th>
                 </tr>
             </thead>
@@ -30,6 +31,7 @@
                         <td>{{ $topup->rfid }}</td>
                         <td>{{ \Carbon\Carbon::parse($topup->tanggal)->format('d-m-Y') }}</td>
                         <td>Rp {{ number_format($topup->debet, 2, ',', '.') }}</td>
+                        <td>Rp {{ number_format($topup->admin, 2, ',', '.') }}</td>
                         <td>{{ $topup->payment }}</td>
                     </tr>
                 @empty

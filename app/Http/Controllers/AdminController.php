@@ -91,7 +91,23 @@ class AdminController extends Controller
             }
         }
 
-        // dd($dataPerBulanPerKantin);
+        $topupbulanan = Topup::with('user')
+            ->selectRaw('rfid, SUM(debet) as total_debet')
+            ->where('payment', '!=', 'saldo')
+            // Tambahkan kondisi untuk membatasi hasil ke bulan ini
+            ->whereBetween('tanggal', [Carbon::now()->startOfMonth(), Carbon::now()])
+            ->groupBy('rfid')
+            ->get();
+        $wdbulanan = Wd::with('user')
+            ->selectRaw('rfid, SUM(kredit) as total_kredit')
+            ->where('payment', '!=', 'saldo')
+            // Tambahkan kondisi untuk membatasi hasil ke bulan ini
+            ->whereBetween('tanggal', [Carbon::now()->startOfMonth(), Carbon::now()])
+            ->groupBy('rfid')
+            ->get();
+
+        // dd($topupbulanan);
+
         return view('admin.dashboard', [
             'users' => $users,
             'canteens' => $canteens,
@@ -99,6 +115,8 @@ class AdminController extends Controller
             'topup' => $topup,
             'dataPerKantin' => $dataPerKantin,
             'dataPerBulanPerKantin' => $dataPerBulanPerKantin,
+            'topupbulanan' => $topupbulanan,
+            'wdbulanan' => $wdbulanan
         ]);
     }
 
@@ -129,7 +147,7 @@ class AdminController extends Controller
             'rfidInputTopUp' => 'required',
             'nominalInput' => 'required|numeric',
             'admin' => 'required|numeric',
-            'paymentMethod' => 'required|in:cash,midtrans',
+            'paymentMethod' => 'required|in:cash,debit',
         ]);
 
         // Cari saldo berdasarkan RFID
@@ -141,12 +159,12 @@ class AdminController extends Controller
         }
         if ($saldo) {
             // Jika saldo ada, tambahkan saldo baru
-            $saldo->saldo += $request->nominalInput - $request->admin;
+            $saldo->saldo += $request->nominalInput;
         } else {
             // Jika saldo tidak ada, buat saldo baru
             $saldo = new Saldo();
             $saldo->rfid = $request->rfidInputTopUp;
-            $saldo->saldo = $request->nominalInput - $request->admin;
+            $saldo->saldo = $request->nominalInput;
         }
 
         // Simpan data ke database
@@ -157,17 +175,20 @@ class AdminController extends Controller
             Topup::create([
                 'tanggal' => now()->toDateString(),
                 'rfid' => $request->rfidInputTopUp,
-                'debet' => $request->nominalInput - $request->admin,
+                'admin' => $request->admin,
+                'debet' => $request->nominalInput,
                 'kredit' => '0',
                 'payment' => 'cash',
             ]);
-        } else {
+        } elseif ($request->paymentMethod == 'debit') { // Perbaikan typo 'debet' menjadi 'debit'
+            // Logika untuk debit, perhatikan perubahan dari 'debet' menjadi 'debit'
             Topup::create([
                 'tanggal' => now()->toDateString(),
                 'rfid' => $request->rfidInputTopUp,
-                'debet' => $request->nominalInput - $request->admin,
+                'admin' => $request->admin,
+                'debet' => $request->nominalInput, // Pertimbangkan untuk mengganti nama kolom menjadi lebih netral jika debit dan kredit adalah tipe transaksi
                 'kredit' => '0',
-                'payment' => 'debet',
+                'payment' => 'debit', // Sesuaikan dengan nilai yang benar
             ]);
         }
 
@@ -217,7 +238,7 @@ class AdminController extends Controller
             'rfidInput' => 'required',
             'nominalInput' => 'required|numeric|min:0', // Pastikan nominal positif
             'admin' => 'required|numeric|min:0', // Pastikan admin positif
-            'paymentMethod' => 'required|in:cash,midtrans',
+            'paymentMethod' => 'required|in:cash,debit',
         ]);
 
         // Cari saldo berdasarkan RFID
@@ -242,13 +263,14 @@ class AdminController extends Controller
             'tanggal' => now()->toDateString(),
             'rfid' => $request->rfidInput,
             'kredit' => $request->nominalInput - $request->admin,
+            'admin' => $request->admin,
             'debet' => '0',
-            'payment' => 'cash',
+            'payment' => $request->paymentMethod,
         ]);
         // Tidak perlu logika untuk 'cash' karena ini adalah operasi WD
 
         // Redirect atau berikan respon sesuai kebutuhan
-        return redirect()->back()->with('success', 'WD berhasil dilakukan. Saldo Anda sekarang: ' . $saldo->saldo);
+        return redirect()->back()->with('success', 'WD sebesar :Rp. ' . $request->nominalInput . '   berhasil dilakukan. Saldo Anda sekarang: ' . $saldo->saldo);
     }
 
     /**

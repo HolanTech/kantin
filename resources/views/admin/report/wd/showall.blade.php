@@ -19,6 +19,7 @@
                     <th scope="col">RFID</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Jumlah</th>
+                    <th scope="col">Biaya admin</th>
                     <th scope="col">Payment</th>
                 </tr>
             </thead>
@@ -30,6 +31,7 @@
                         <td>{{ $wd->rfid }}</td>
                         <td>{{ \Carbon\Carbon::parse($wd->tanggal)->format('d-m-Y') }}</td>
                         <td>Rp {{ number_format($wd->kredit, 2, ',', '.') }}</td>
+                        <td>Rp {{ number_format($wd->admin, 2, ',', '.') }}</td>
                         <td>{{ $wd->payment }}</td>
                     </tr>
                 @empty

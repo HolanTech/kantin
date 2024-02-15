@@ -110,6 +110,50 @@
 
                 </div>
             </div>
+            <div class="col-6">
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">Top-Up Bulanan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="topupPieChart"
+                                style="min-height: 400px; height: 400px; max-height: 400px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">Penarikan Bulanan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="wdPieChart"
+                                style="min-height: 400px; height: 400px; max-height: 400px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
 
 
@@ -120,6 +164,14 @@
 @endsection
 @push('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script>
+        var backgroundColors = [];
+        var borderColors = [];
+        for (var i = 0; i < data.length; i++) {
+            backgroundColors.push(getRandomRgbaColor(0.2));
+            borderColors.push(getRandomRgbaColor(1));
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var ctxArea = document.getElementById('areaChart').getContext('2d');
@@ -200,11 +252,18 @@
                 for (var i = 1; i <= 12; i++) {
                     data.push(months[i].total_income);
                 }
+
+                var backgroundColors = [];
+                var borderColors = [];
+                for (var i = 0; i < data.length; i++) {
+                    backgroundColors.push(getRandomRgbaColor(0.2));
+                    borderColors.push(getRandomRgbaColor(1));
+                }
                 datasets.push({
                     label: kantinName,
                     data: data,
-                    backgroundColor: `hsl(${index * 360 / Object.keys(dataPerBulanPerKantin).length}, 70%, 70%)`,
-                    borderColor: `hsl(${index * 360 / Object.keys(dataPerBulanPerKantin).length}, 70%, 40%)`,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
                     borderWidth: 1
                 });
             });
@@ -224,5 +283,111 @@
                 }
             });
         });
+    </script>
+    <script>
+        var topupData = @json($topupbulanan);
+    </script>
+    <script>
+        // Konversi data topup ke format yang sesuai untuk Chart.js
+        var labels = topupData.map(function(item) {
+            return item.user.name; // Asumsi model User memiliki kolom 'name'
+        });
+        var data = topupData.map(function(item) {
+            return item.total_debet;
+        });
+
+        function getRandomRgbaColor(opacity) {
+            var r = Math.floor(Math.random() * 256); // Random between 0-255
+            var g = Math.floor(Math.random() * 256); // Random between 0-255
+            var b = Math.floor(Math.random() * 256); // Random between 0-255
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
+        }
+
+        var backgroundColors = [];
+        var borderColors = [];
+        for (var i = 0; i < data.length; i++) {
+            backgroundColors.push(getRandomRgbaColor(0.2));
+            borderColors.push(getRandomRgbaColor(1));
+        }
+        // Konfigurasi pie chart
+        var config = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Top Up Bulanan'
+                }
+            }
+        };
+
+        // Render pie chart
+        var ctx = document.getElementById('topupPieChart').getContext('2d');
+        new Chart(ctx, config);
+    </script>
+    <script>
+        var wdData = @json($wdbulanan);
+    </script>
+    <script>
+        // Konversi data wd ke format yang sesuai untuk Chart.js
+        var labels = wdData.map(function(item) {
+            return item.user.name; // Asumsi model User memiliki kolom 'name'
+        });
+        var data = wdData.map(function(item) {
+            return item.total_kredit;
+        });
+
+        function getRandomRgbaColor(opacity) {
+            var r = Math.floor(Math.random() * 256); // Random between 0-255
+            var g = Math.floor(Math.random() * 256); // Random between 0-255
+            var b = Math.floor(Math.random() * 256); // Random between 0-255
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
+        }
+
+        var backgroundColors = [];
+        var borderColors = [];
+        for (var i = 0; i < data.length; i++) {
+            backgroundColors.push(getRandomRgbaColor(0.2));
+            borderColors.push(getRandomRgbaColor(1));
+        }
+        // Konfigurasi pie chart
+        var config = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Penarikan Bulanan'
+                }
+            }
+        };
+
+        // Render pie chart
+        var ctx = document.getElementById('wdPieChart').getContext('2d');
+        new Chart(ctx, config);
     </script>
 @endpush

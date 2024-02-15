@@ -53,11 +53,12 @@
                             <label class="form-check-label">Cash</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="paymentMethod" value="debet">
+                            <input type="radio" class="form-check-input" name="paymentMethod" value="debit">
+                            <!-- Perbaikan typo dan menghilangkan 'checked' -->
                             <label class="form-check-label">Debit</label>
                         </div>
-
                     </div>
+
                     <div class="form-group">
                         <button class="btn btn-primary w-100" type="submit">TOP-UP</button>
                     </div>

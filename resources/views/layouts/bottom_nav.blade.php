@@ -11,7 +11,7 @@
     }
 
     .custom-navbar {
-        background-color: #00c8ec !important;
+        background-color: #2793ff !important;
         padding: 3px;
     }
 
@@ -87,7 +87,7 @@
     }
 
     .custom-navbar.bg-light {
-        background-color: #00c8ec !important;
+        background-color: #2793ff !important;
         /* Atur warna latar navigasi bawah */
     }
 </style>

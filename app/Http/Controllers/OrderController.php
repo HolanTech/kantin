@@ -45,7 +45,9 @@ class OrderController extends Controller
     {
         $id = Auth::id();
         $order = Order::where('kantin_id', $id)->orderBy('tanggal', 'desc')->get();
-        return view('order.report', compact('order'));
+        $user = Auth::user();
+        $saldo = Saldo::where('rfid', $user->rfid)->first();
+        return view('order.report', compact('order', 'saldo'));
     }
     public function checkSaldo(Request $request)
     {
@@ -255,7 +257,7 @@ class OrderController extends Controller
             $query->whereBetween('created_at', [$startDate . " 00:00:00", $endDate . " 23:59:59"]);
         }
 
-        $saless = $query->get(); // Eksekusi query
+        $saless = $query->orderBy('tanggal', 'desc')->get(); // Eksekusi query
 
         return view('admin.report.sales.showall', compact('saless')); // Pastikan view Anda sesuai
     }
@@ -291,7 +293,7 @@ class OrderController extends Controller
             $query->whereBetween('created_at', [$startDate . " 00:00:00", $endDate . " 23:59:59"]);
         }
 
-        $orders = $query->get();
+        $orders = $query->orderBy('tanggal', 'desc')->get();
         // Menghitung total dari semua total_order
         $totalOrder = $orders->sum('total_order');
 
