@@ -48,7 +48,10 @@
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                             <button type="submit" class="btn btn-primary w-25 mx-2">Tampilkan</button>
-                            <button id="downloadButton" type="button" class="btn btn-success w-25 mx-2">Download</button>
+                            <button id="downloadButton" type="button" class="btn btn-danger w-25 mx-2">Download
+                                PDF</button>
+                            <button id="excelButton" type="button" class="btn btn-success w-25 mx-2">Download
+                                Excel</button>
                         </div>
                     </form>
                 </div>
@@ -72,6 +75,15 @@
                 var actionUrl = form.attr('action');
                 var data = form.serialize(); // Mengumpulkan data
                 var baseUrl = "{{ route('topup.print') }}";
+                var downloadUrl = baseUrl + "?" + data; // Membangun URL
+                window.location.href = downloadUrl; // Mengarahkan user ke URL untuk download
+            });
+            $('#excelButton').click(function(e) {
+                e.preventDefault();
+                var form = $('#filterForm');
+                var actionUrl = form.attr('action');
+                var data = form.serialize(); // Mengumpulkan data
+                var baseUrl = "{{ route('topup.excel') }}";
                 var downloadUrl = baseUrl + "?" + data; // Membangun URL
                 window.location.href = downloadUrl; // Mengarahkan user ke URL untuk download
             });

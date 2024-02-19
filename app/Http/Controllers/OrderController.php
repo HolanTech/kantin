@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Wd;
 use App\Models\Food;
 use App\Models\User;
@@ -10,17 +11,18 @@ use App\Models\Order;
 use App\Models\Saldo;
 use App\Models\Snack;
 use App\Models\Topup;
-use PDF;
 use App\Models\OrderDetail;
+use App\Exports\OrderExport;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use function Laravel\Prompts\select;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -314,5 +316,9 @@ class OrderController extends Controller
         return view('admin.report.sales.show', compact('order'));
         // Anda tidak perlu mengirim 'user' ke view jika 'order' sudah memiliki relasi ke 'user'
         // Anda bisa mengakses user melalui $order->user di view
+    }
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new OrderExport($request), 'laporan-penjualan.xlsx');
     }
 }

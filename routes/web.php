@@ -60,12 +60,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admin.user.checksaldo', [AdminController::class, 'checkSaldo'])->name('admin.user.checksaldo');
     // Topup and Withdrawal (Wd) Management
     Route::resource('topup', TopupController::class);
-    // Route::resource('wd', WdController::class);
+    Route::get('topup.excel', [TopupController::class, 'exportExcel'])->name('topup.excel');
     Route::get('topup.filter', [TopupController::class, 'filter'])->name('topup.filter');
     Route::get('topup.print', [TopupController::class, 'print'])->name('topup.print');
     Route::resource('wd', WdController::class);
     Route::get('wd.filter', [WdController::class, 'filter'])->name('wd.filter');
     Route::get('wd.print', [WdController::class, 'print'])->name('wd.print');
+    Route::get('wd.excel', [WdController::class, 'exportExcel'])->name('wd.excel');
+    Route::get('sales.excel', [OrderController::class, 'exportExcel'])->name('sales.excel');
     Route::resource('sales', OrderController::class);
     Route::get('sales.report', [OrderController::class, 'raport'])->name('sales.report');
     Route::get('sales.filter', [OrderController::class, 'filter'])->name('sales.filter');

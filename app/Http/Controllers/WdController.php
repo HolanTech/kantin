@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Wd;
 use App\Models\User;
 use App\Models\Order;
-use PDF;
+use App\Exports\WdExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WdController extends Controller
 {
@@ -83,11 +85,16 @@ class WdController extends Controller
 
         $orders = $query->orderBy('tanggal', 'desc')->get();
         // Menghitung total dari semua total_order
+        $totalAdmin = $orders->sum('admin');
         $totalOrder = $orders->sum('kredit');
 
-        $pdf = PDF::loadView('admin.report.wd.print', compact('orders', 'totalOrder'));
+        $pdf = PDF::loadView('admin.report.wd.print', compact('orders', 'totalOrder', 'totalAdmin'));
 
         // Pastikan direktori penyimpanan tersedia dan memiliki izin yang sesuai
         return $pdf->download('laporan-transaksi.pdf');
+    }
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new WdExport($request), 'laporan-penarikan.xlsx');
     }
 }

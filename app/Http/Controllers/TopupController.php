@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Topup;
-use PDF;
+use App\Exports\TopupExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TopupController extends Controller
 {
@@ -83,11 +86,16 @@ class TopupController extends Controller
 
         $orders = $query->orderBy('tanggal', 'desc')->get();
         // Menghitung total dari semua total_order
+        $totalAdmin = $orders->sum('admin');
         $totalOrder = $orders->sum('debet');
 
-        $pdf = PDF::loadView('admin.report.topup.print', compact('orders', 'totalOrder'));
+        $pdf = PDF::loadView('admin.report.topup.print', compact('orders', 'totalOrder', 'totalAdmin'));
 
         // Pastikan direktori penyimpanan tersedia dan memiliki izin yang sesuai
         return $pdf->download('laporan-topup.pdf');
+    }
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new TopupExport($request), 'laporan-topup.xlsx');
     }
 }

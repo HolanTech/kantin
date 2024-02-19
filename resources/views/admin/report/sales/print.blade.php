@@ -34,9 +34,9 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
+                <th scope="col">Tanggal</th>
                 <th scope="col">Nama</th>
                 <th scope="col">RFID</th>
-                <th scope="col">Tanggal</th>
                 <th scope="col">Jumlah</th>
             </tr>
         </thead>
@@ -44,9 +44,9 @@
             @foreach ($orders as $order)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
+                    <td>{{ \Carbon\Carbon::parse($order->tanggal)->format('d-m-Y') }}</td>
                     <td>{{ $order->user->name }}</td>
                     <td>{{ $order->rfid }}</td>
-                    <td>{{ \Carbon\Carbon::parse($order->tanggal)->format('d-m-Y') }}</td>
                     <td>Rp {{ number_format($order->total_order, 2, ',', '.') }}</td>
 
                 </tr>
