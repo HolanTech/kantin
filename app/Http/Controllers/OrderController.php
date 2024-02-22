@@ -158,6 +158,8 @@ class OrderController extends Controller
             $parts = explode(': ', $detail, 2);
             if (count($parts) === 2) {
                 [$itemName, $itemDetails] = $parts;
+                // Menghapus tanda kutip ganda dari nama item
+                $itemName = str_replace('"', '', $itemName);
                 if (preg_match('/(\d+)x Rp (\d+) = Rp (\d+)/', $itemDetails, $matches) && count($matches) === 4) {
                     $quantity = $matches[1];
                     $pricePerUnit = $matches[2];
@@ -175,6 +177,7 @@ class OrderController extends Controller
             }
         }
     }
+
 
 
     protected function addLikeToFood($itemName, $pricePerUnit)
@@ -218,8 +221,15 @@ class OrderController extends Controller
         // Misalnya, $order->rfid untuk mendapatkan rfid dari order yang sedang ditampilkan
         $user = User::where('rfid', $order->rfid)->first(); // Menggunakan first() karena asumsinya satu rfid untuk satu user
 
+        // Menghapus tanda kutip ganda dari nama_item dalam setiap detail pesanan
+        $order->details->transform(function ($item) {
+            $item['nama_item'] = str_replace('"', '', $item['nama_item']);
+            return $item;
+        });
+
         return view('order.show', compact('order', 'user'));
     }
+
     public function raport()
     {
         $users = User::with('orders')->where('role', 'pengguna')->get();
@@ -233,10 +243,8 @@ class OrderController extends Controller
         $query = Order::query(); // Mulai dengan query dasar
 
         // Filter berdasarkan user jika user_id diberikan dan tidak sama dengan 'all'
-        if ($request->filled('user')) {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('rfid', $request->user);
-            });
+        if ($request->filled('rfid')) {
+            $query->where('rfid', $request->rfid);
         }
 
         // Filter berdasarkan kantin jika kantin_id diberikan dan tidak sama dengan 'all'
@@ -261,7 +269,29 @@ class OrderController extends Controller
 
         $saless = $query->orderBy('tanggal', 'desc')->get(); // Eksekusi query
 
-        return view('admin.report.sales.showall', compact('saless')); // Pastikan view Anda sesuai
+        $total = $saless->count();
+        $user = $saless->groupBy('rfid')->count();
+        $pendapatan = $saless->SUM('total_order');
+        $items = $query->with('details')
+            ->get()
+            ->flatMap(function ($order) {
+                return $order->details;
+            })
+            ->groupBy('nama_item')
+            ->map(function ($details) {
+                return [
+                    'nama_item' => $details->first()->nama_item,
+                    'total_kuantitas' => $details->sum('kuantitas')
+                ];
+            })
+
+            ->values();
+        $items->transform(function ($item) {
+            $item['nama_item'] = str_replace('"', '', $item['nama_item']);
+            return $item;
+        });
+        // dd($items);
+        return view('admin.report.sales.showall', compact('saless', 'total', 'user', 'pendapatan', 'items')); // Pastikan view Anda sesuai
     }
     public function print(Request $request)
     {
@@ -312,7 +342,10 @@ class OrderController extends Controller
         $order = Order::with('details')->findOrFail($id);
         // Tidak perlu mencari user lagi jika model Order sudah memiliki relasi ke User
         // asumsikan Anda sudah mendefinisikan relasi tersebut di model Order
-
+        $order->details->transform(function ($item) {
+            $item['nama_item'] = str_replace('"', '', $item['nama_item']);
+            return $item;
+        });
         return view('admin.report.sales.show', compact('order'));
         // Anda tidak perlu mengirim 'user' ke view jika 'order' sudah memiliki relasi ke 'user'
         // Anda bisa mengakses user melalui $order->user di view

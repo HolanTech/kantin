@@ -45,10 +45,49 @@
             </tbody>
         </table>
     </div>
-    {{-- <div class="col-12">
-        <small>Note: cash = top-up user</small><br>
-        <small>saldo = penerimaan kantin</small>
-    </div> --}}
+    <h3>Sumery Transaksi</h3>
+    <ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Total transaksi</th>
+                    <th> : </th>
+                    <th>{{ $total }}</th>
+
+                </tr>
+                <tr>
+                    <th>Total Pembeli</th>
+                    <th> : </th>
+                    <th> {{ $user }}</th>
+                </tr>
+                <tr>
+                    <th>Total Pendaptan</th>
+                    <th> : </th>
+                    <td>Rp {{ number_format($pendapatan, 2, ',', '.') }}</td>
+
+
+                </tr>
+                <tr>
+                    <th>Nama Item</th>
+                    <th> </th>
+                    <th>Total Kuantitas</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach ($items as $item)
+                    <tr>
+                        <td>{{ $item['nama_item'] }}</td>
+                        <th> : </th>
+                        <td>{{ $item['total_kuantitas'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+
+    </ul>
 @endsection
 
 @push('script')

@@ -53,7 +53,7 @@
                                 <p class="card-text">{{ Str::limit($food->description, 100) }}</p>
                                 <div data-price="{{ $food->price }}" id="price-food-{{ $food->id }}"
                                     class="food-price item-price">
-                                    {{ number_format($food->price, 2, '.', '') }}
+                                    Rp {{ number_format($food->price, 2, ',', '.') }}
                                 </div>
                                 <div class="row">
                                     <div class="col-4">
@@ -84,7 +84,7 @@
                                 <p class="card-text">{{ Str::limit($drink->description, 100) }}</p>
                                 <div data-price="{{ $drink->price }}" id="price-drink-{{ $drink->id }}"
                                     class="drink-price item-price">
-                                    {{ number_format($drink->price, 2, '.', '') }}
+                                    Rp {{ number_format($drink->price, 2, ',', '.') }}
                                 </div>
                                 <div class="row">
                                     <div class="col-4">
@@ -115,7 +115,7 @@
                                 <p class="card-text">{{ Str::limit($snack->description, 100) }}</p>
                                 <div data-price="{{ $snack->price }}" id="price-snack-{{ $snack->id }}"
                                     class="snack-price item-price">
-                                    {{ number_format($snack->price, 2, '.', '') }}
+                                    Rp {{ number_format($snack->price, 2, ',', '.') }}
                                 </div>
                                 <div class="row">
                                     <div class="col-4">
