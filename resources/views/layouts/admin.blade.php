@@ -225,7 +225,7 @@
 
     <script src="{{ asset('assets/dist/js/adminlte.js?v=3.2.0') }}"></script>
 
-    <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
+    {{-- <script src="{{ asset('assets/dist/js/demo.js') }}"></script> --}}
 
     <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
 
