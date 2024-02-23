@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Pengelola Specific Routes
 Route::middleware(['auth', 'pengelola'])->group(function () {
+    Route::get('user.index', [UserController::class, 'index'])->name('user.index'); // Assuming 'user' creation is managed elsewhere
     Route::get('/homeuser', [HomeController::class, 'homeuser'])->name('homeuser');
     Route::resource('food', FoodController::class);
     Route::resource('drink', DrinkController::class);
