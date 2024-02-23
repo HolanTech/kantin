@@ -15,7 +15,10 @@
         <div class="card-header bg-primary vertical-center">
             <h3 class="card-title">Canteen Table</h3>
         </div>
+
         <div class="card-body">
+            <a href="{{ route('user.create') }}" class="btn btn-primary">Add User</a>
+
             <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -45,7 +48,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('user.edit', $canteen->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('user.edit', $canteen->id) }}" class="btn btn-success">Edit</a>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#deleteModal{{ $canteen->id }}">
                                     Delete

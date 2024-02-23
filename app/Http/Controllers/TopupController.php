@@ -26,10 +26,8 @@ class TopupController extends Controller
         $query = Topup::query(); // Mulai dengan query dasar
 
         // Filter berdasarkan user jika user_id diberikan dan tidak sama dengan 'all'
-        if ($request->filled('user')) {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('rfid', $request->user);
-            });
+        if ($request->filled('rfid')) {
+            $query->where('rfid', $request->rfid);
         }
 
         // // Filter berdasarkan kantin jika kantin_id diberikan dan tidak sama dengan 'all'
@@ -62,10 +60,8 @@ class TopupController extends Controller
         $query = Topup::query();
 
         // Filter berdasarkan user jika user_id diberikan dan tidak sama dengan 'all'
-        if ($request->filled('user') && $request->user != '') {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('rfid', $request->user);
-            });
+        if ($request->filled('rfid')) {
+            $query->where('rfid', $request->rfid);
         }
 
 

@@ -42,9 +42,14 @@
             </tbody>
         </table>
     </div>
-    <div class="col-12">
-        <small>Note: cash = top-up user</small><br>
-        <small>saldo = penerimaan kantin</small>
+    <div class="col-12 mt-3 mb-3">
+        <div class="p-3" style="background-color: #f8f9fa; border-radius: 5px; border: 1px solid #e9ecef;">
+            <h6 class="font-weight-bold text-uppercase">Notes:</h6>
+            <ul class="list-unstyled">
+                <li><small><strong>Cash:</strong> Top-up user</small></li>
+                <li><small><strong>Saldo:</strong> Penerimaan kantin</small></li>
+            </ul>
+        </div>
     </div>
 @endsection
 

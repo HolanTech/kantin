@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <h2 style="text-align: center;">Laporan Transaksi</h2>
+    <h3 style="text-align: center;">Daftar Top-up dan Penerimaan</h3>
     <table class="table">
         <thead>
             <tr>

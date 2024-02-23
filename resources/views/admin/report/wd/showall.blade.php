@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h3>Daftar Penarikan</h3>
+            <h3>Laporan Penarikan Dana</h3>
         </div>
         <div class="col-3">
             <a href="{{ route('wd.index') }}" class="btn btn-primary">Kembali</a>
@@ -42,9 +42,14 @@
             </tbody>
         </table>
     </div>
-    <div class="col-12">
-        <small>Note: cash = Wd Kantin</small><br>
-        <small>saldo = pembayaran user di kantin</small>
+    <div class="col-12 mt-3 mb-3">
+        <div class="p-3" style="background-color: #f8f9fa; border-radius: 5px; border: 1px solid #e9ecef;">
+            <h6 class="font-weight-bold text-uppercase">Notes:</h6>
+            <ul class="list-unstyled">
+                <li><small><strong>Cash/Debit:</strong> Penarikan kantin</small></li>
+                <li><small><strong>Saldo:</strong> Penerimaan kantin</small></li>
+            </ul>
+        </div>
     </div>
 @endsection
 

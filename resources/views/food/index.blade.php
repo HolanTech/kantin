@@ -79,7 +79,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $food->name }}</h5>
                             <p class="card-text">{{ Str::limit($food->description, 100) }}</p>
-                            <p class="card-text">Rp. {{ number_format($food->price, 2, '.', '') }}</p>
+                            <p class="card-text">Rp. {{ number_format($food->price, 2, ',', '.') }}</p>
                             <div class="button">
 
                                 <!-- Tombol Status -->

@@ -100,6 +100,8 @@
         <img src="{{ asset('assets/dist/img/logo.png') }}" alt="">
         <h2>Detail Transaksi</h2>
 
+        <h3><strong>{{ $kantin->name }}</strong></h3>
+
         <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($order->tanggal)->format('d-m-Y') }}
         </p>
         <p><strong>Nama:</strong> {{ $user->name }}</p>

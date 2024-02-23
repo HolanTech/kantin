@@ -216,18 +216,16 @@ class OrderController extends Controller
     public function show(Request $request, $id)
     {
         $order = Order::with('details')->findOrFail($id);
-
-        // Anda perlu mendapatkan nilai rfid dari order yang ditemukan, bukan string 'rfid'
-        // Misalnya, $order->rfid untuk mendapatkan rfid dari order yang sedang ditampilkan
         $user = User::where('rfid', $order->rfid)->first(); // Menggunakan first() karena asumsinya satu rfid untuk satu user
 
+        $kantin =  User::find($order->kantin_id); // Menggunakan first() untuk mendapatkan single model
         // Menghapus tanda kutip ganda dari nama_item dalam setiap detail pesanan
         $order->details->transform(function ($item) {
             $item['nama_item'] = str_replace('"', '', $item['nama_item']);
             return $item;
         });
 
-        return view('order.show', compact('order', 'user'));
+        return view('order.show', compact('order', 'user', 'kantin'));
     }
 
     public function raport()
@@ -299,10 +297,8 @@ class OrderController extends Controller
         $query = Order::query();
 
         // Filter berdasarkan user jika user_id diberikan dan tidak sama dengan 'all'
-        if ($request->filled('user') && $request->user != '') {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('rfid', $request->user);
-            });
+        if ($request->filled('rfid')) {
+            $query->where('rfid', $request->rfid);
         }
 
         // Filter berdasarkan kantin jika kantin_id diberikan dan tidak sama dengan 'all'
@@ -326,10 +322,30 @@ class OrderController extends Controller
         }
 
         $orders = $query->orderBy('tanggal', 'desc')->get();
-        // Menghitung total dari semua total_order
+        $total = $orders->count();
+        $user = $orders->groupBy('rfid')->count();
+        $pendapatan = $orders->SUM('total_order');
+        $items = $query->with('details')
+            ->get()
+            ->flatMap(function ($order) {
+                return $order->details;
+            })
+            ->groupBy('nama_item')
+            ->map(function ($details) {
+                return [
+                    'nama_item' => $details->first()->nama_item,
+                    'total_kuantitas' => $details->sum('kuantitas')
+                ];
+            })
+
+            ->values();
+        $items->transform(function ($item) {
+            $item['nama_item'] = str_replace('"', '', $item['nama_item']);
+            return $item;
+        }); // Menghitung total dari semua total_order
         $totalOrder = $orders->sum('total_order');
 
-        $pdf = PDF::loadView('admin.report.sales.print', compact('orders', 'totalOrder'));
+        $pdf = PDF::loadView('admin.report.sales.print', compact('orders', 'totalOrder', 'total', 'user', 'pendapatan', 'items'));
 
         // Pastikan direktori penyimpanan tersedia dan memiliki izin yang sesuai
         return $pdf->download('laporan-transaksi.pdf');
@@ -340,16 +356,20 @@ class OrderController extends Controller
     public function detail(Request $request, $id)
     {
         $order = Order::with('details')->findOrFail($id);
-        // Tidak perlu mencari user lagi jika model Order sudah memiliki relasi ke User
-        // asumsikan Anda sudah mendefinisikan relasi tersebut di model Order
         $order->details->transform(function ($item) {
             $item['nama_item'] = str_replace('"', '', $item['nama_item']);
             return $item;
         });
-        return view('admin.report.sales.show', compact('order'));
-        // Anda tidak perlu mengirim 'user' ke view jika 'order' sudah memiliki relasi ke 'user'
-        // Anda bisa mengakses user melalui $order->user di view
+
+        // Asumsi kantin_id pada Order sebenarnya adalah id dari User yang menjadi pemilik kantin.
+        // Maka, kita akan memuat User berdasarkan kantin_id dari Order.
+        $kantinOwner = User::find($order->kantin_id);
+        $buyer = User::where('rfid', $order->rfid)->first();
+        // dd($order, $buyer);
+        // Pastikan variabel yang dikirim ke view sesuai dengan yang diharapkan.
+        return view('admin.report.sales.show', compact('order', 'kantinOwner', 'buyer'));
     }
+
     public function exportExcel(Request $request)
     {
         return Excel::download(new OrderExport($request), 'laporan-penjualan.xlsx');

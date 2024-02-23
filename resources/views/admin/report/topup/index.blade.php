@@ -11,8 +11,8 @@
                     <form id="filterForm" action="{{ route('topup.filter') }}" method="GET">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="user">Pilih user:</label>
-                                <select name="user" id="user" class="form-control select2">
+                                <label for="rfid">Pilih user:</label>
+                                <select name="rfid" id="rfid" class="form-control select2">
                                     <option value="">Semua</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->rfid }}">{{ $user->name }}</option>
@@ -66,26 +66,23 @@
         $(document).ready(function() {
             $('.select2').select2({
                 theme: 'bootstrap4'
-            })
-        });
-        document.addEventListener("DOMContentLoaded", function() {
-            $('#downloadButton').click(function(e) {
-                e.preventDefault();
-                var form = $('#filterForm');
-                var actionUrl = form.attr('action');
-                var data = form.serialize(); // Mengumpulkan data
-                var baseUrl = "{{ route('topup.print') }}";
-                var downloadUrl = baseUrl + "?" + data; // Membangun URL
-                window.location.href = downloadUrl; // Mengarahkan user ke URL untuk download
             });
-            $('#excelButton').click(function(e) {
+
+            // Perbaiki penanganan klik
+            $('#downloadButton').on('click', function(e) {
                 e.preventDefault();
                 var form = $('#filterForm');
-                var actionUrl = form.attr('action');
-                var data = form.serialize(); // Mengumpulkan data
+                var baseUrl = "{{ route('topup.print') }}";
+                var downloadUrl = baseUrl + "?" + form.serialize();
+                window.location.href = downloadUrl;
+            });
+
+            $('#excelButton').on('click', function(e) {
+                e.preventDefault();
+                var form = $('#filterForm');
                 var baseUrl = "{{ route('topup.excel') }}";
-                var downloadUrl = baseUrl + "?" + data; // Membangun URL
-                window.location.href = downloadUrl; // Mengarahkan user ke URL untuk download
+                var downloadUrl = baseUrl + "?" + form.serialize();
+                window.location.href = downloadUrl;
             });
         });
     </script>

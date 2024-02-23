@@ -248,30 +248,38 @@ class AdminController extends Controller
             return back()->with('error', 'Saldo tidak ditemukan.');
         }
 
+        // Cek role pengguna
+        $user = User::where('rfid', $request->rfidInput)->first();
+        if (!$user || $user->role !== 'pengelola') {
+            // Jika pengguna bukan pengelola, kembalikan dengan pesan kesalahan
+            return back()->with('error', 'Penarikan saldo hanya dapat dilakukan oleh pengelola kantin.');
+        }
+
         // Hitung saldo akhir setelah pengurangan
         $saldoAkhir = $saldo->saldo - ($request->nominalInput + $request->admin);
         if ($saldoAkhir < 0) {
             // Jika saldo akhir negatif, kembalikan dengan pesan kesalahan
-            return back()->with('error', 'Saldo Anda tidak mencukupi untuk pengambilan nominal tersebut.');
+            return back()->with('error', 'Saldo tidak mencukupi untuk transaksi ini.');
         }
 
         // Kurangi saldo
         $saldo->saldo = $saldoAkhir;
-        // Simpan perubahan ke database
-        $saldo->save();
+        $saldo->save(); // Simpan perubahan ke database
+
+        // Catat transaksi WD
         Wd::create([
             'tanggal' => now()->toDateString(),
             'rfid' => $request->rfidInput,
-            'kredit' => $request->nominalInput - $request->admin,
+            'kredit' => $request->nominalInput,
             'admin' => $request->admin,
-            'debet' => '0',
+            'debet' => 0, // Sesuaikan dengan skema database Anda
             'payment' => $request->paymentMethod,
         ]);
-        // Tidak perlu logika untuk 'cash' karena ini adalah operasi WD
 
-        // Redirect atau berikan respon sesuai kebutuhan
-        return redirect()->back()->with('success', 'WD sebesar :Rp. ' . $request->nominalInput . '   berhasil dilakukan. Saldo Anda sekarang: ' . $saldo->saldo);
+        // Redirect dengan pesan sukses
+        return redirect()->back()->with('success', 'Penarikan sebesar Rp' . $request->nominalInput . ' berhasil dilakukan. Saldo Anda sekarang: Rp' . $saldoAkhir);
     }
+
 
     /**
      * Show the form for creating a new resource.

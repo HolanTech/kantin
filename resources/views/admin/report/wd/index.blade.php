@@ -11,8 +11,8 @@
                     <form id="filterForm" action="{{ route('wd.filter') }}" method="GET">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="user">Pilih user:</label>
-                                <select name="user" id="user" class="form-control select2">
+                                <label for="rfid">Pilih user:</label>
+                                <select name="rfid" id="rfid" class="form-control select2">
                                     <option value="">Semua</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->rfid }}">{{ $user->name }}</option>

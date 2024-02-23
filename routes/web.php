@@ -24,12 +24,13 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Auth::routes(['verify' => true]); // Consider enabling verification if not already done
 
 // Shared Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::resource('user', UserController::class)->except(['create', 'store']); // Assuming 'user' creation is managed elsewhere
+    Route::resource('user', UserController::class); // Assuming 'user' creation is managed elsewhere
 });
 
 // Pengelola Specific Routes
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'pengelola'])->group(function () {
 
 // Admin Specific Routes
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('user', UserController::class); // Assuming 'user' creation is managed elsewhere
+
     Route::resource('admin', AdminController::class);
     Route::get('admin.user', [AdminController::class, 'user'])->name('admin.user');
     Route::get('admin.user.topup', [AdminController::class, 'topup'])->name('admin.user.topup');

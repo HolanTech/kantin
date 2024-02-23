@@ -100,9 +100,11 @@
         <img src="{{ asset('assets/dist/img/logo.png') }}" alt="">
         <h2>Detail Transaksi</h2>
 
+        <h3><strong>{{ $kantinOwner->name }}</strong></h3>
+
         <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($order->tanggal)->format('d-m-Y') }}
         </p>
-        <p><strong>Nama:</strong> {{ $order->name }}</p>
+        <p><strong>Nama:</strong> {{ $buyer->name }}</p>
         <p><strong>RFID:</strong> {{ $order->rfid }}</p>
         <p><strong>Total Order:</strong> Rp{{ number_format($order->total_order, 2) }}</p>
 

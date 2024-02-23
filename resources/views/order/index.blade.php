@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ \Carbon\Carbon::parse($d->tanggal)->format('d-m-Y') }}</td>
                             <td>{{ $d->user->name }}</td>
-                            <td>Rp.{{ number_format($d->total_order, 0) }}</td>
+                            <td>Rp.{{ number_format($d->total_order, 2, ',', '.') }}</td>
                             <td>
                                 <a href="{{ route('order.show', $d->id) }}" class="btn btn-info btn-sm" title="Detail">
                                     <i class="fas fa-print"></i>

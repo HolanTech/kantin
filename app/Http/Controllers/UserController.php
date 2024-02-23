@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Saldo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -21,16 +23,56 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'rfid' => 'required|string|max:255|unique:users,rfid', // Memastikan rfid unik
+            'no_hp' => 'required|string|max:15',
+            'password' => 'nullable|string|min:6',
+            'role' => 'required|in:pengguna,pengelola',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $user = new User;
+            $user->name = $request->name;
+            $user->rfid = $request->rfid;
+            $user->no_hp = $request->no_hp;
+            $user->role = $request->role;
+
+            // Enkripsi password hanya jika field diisi
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
+
+            // Menambahkan data ke tabel saldo
+            $saldo = new Saldo;
+            $saldo->rfid = $request->rfid; // Asumsi tabel saldo memiliki kolom rfid
+            $saldo->saldo = 0; // Set saldo awal ke 0
+            $saldo->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'User and initial balance added successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Gagal menambahkan user dan saldo, kembalikan error
+            return redirect()->back()->with('error', 'Error adding user: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -77,7 +119,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.user')->with('success', 'User updated successfully.');
+        return redirect()->back()->with('success', 'User updated successfully.');
     }
 
 
